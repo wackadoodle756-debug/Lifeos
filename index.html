@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LifeOS: The Series</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,6 +28,7 @@
                     },
                     gridTemplateColumns: {
                         '13': 'repeat(13, minmax(0, 1fr))',
+                        '31': 'repeat(31, minmax(0, 1fr))',
                     }
                 }
             }
@@ -42,13 +43,14 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #0a0b0e;
             color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
         }
         .cinematic-font {
             font-family: 'Cinzel', serif;
         }
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
         }
         ::-webkit-scrollbar-track {
             background: #0a0b0e;
@@ -57,255 +59,245 @@
             background: #1f2430;
             border-radius: 9999px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
     </style>
 </head>
-<body class="bg-darkbg text-slate-100 min-h-screen flex flex-col selection:bg-accentviolet selection:text-white">
+<body class="bg-darkbg text-slate-100 min-h-screen flex flex-col selection:bg-accentviolet selection:text-white pb-20 md:pb-0">
 
-    <header class="border-b border-cardborder bg-cardbg/70 backdrop-blur-xl sticky top-0 z-40 px-4 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4 transition-all">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-accentviolet to-accentcyan flex items-center justify-center shadow-lg shadow-accentviolet/25 ring-1 ring-white/10">
-                <i class="fa-solid fa-clapperboard text-white text-base"></i>
+    <!-- Header: Mobile optimized top bar -->
+    <header class="border-b border-cardborder bg-cardbg/80 backdrop-blur-xl sticky top-0 z-40 px-4 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-accentviolet to-accentcyan flex items-center justify-center shadow-lg shadow-accentviolet/25 ring-1 ring-white/10 shrink-0">
+                <i class="fa-solid fa-clapperboard text-white text-sm"></i>
             </div>
             <div>
-                <h1 class="cinematic-font text-lg md:text-xl font-bold tracking-wider bg-gradient-to-r from-white via-slate-200 to-accentviolet bg-clip-text text-transparent">LIFE: THE SERIES</h1>
-                <p class="text-[11px] text-slate-400 font-medium tracking-wide">Stream your reality, one episode at a time.</p>
+                <h1 class="cinematic-font text-sm md:text-lg font-bold tracking-wider bg-gradient-to-r from-white via-slate-200 to-accentviolet bg-clip-text text-transparent truncate max-w-[160px] sm:max-w-none">LIFE: THE SERIES</h1>
+                <p class="text-[10px] text-slate-400 font-medium tracking-wide hidden sm:block">Stream your reality, one episode at a time.</p>
             </div>
         </div>
 
-        <div class="flex items-center space-x-1.5 bg-[#0a0b0e]/80 p-1.5 rounded-2xl border border-cardborder shadow-inner overflow-x-auto max-w-full">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 bg-accentviolet text-white shadow-lg shadow-accentviolet/20 shrink-0">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </button>
-            <button onclick="switchTab('calendar')" id="nav-calendar" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5 shrink-0">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Calendar</span>
-            </button>
-            <button onclick="switchTab('matrix')" id="nav-matrix" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5 shrink-0">
-                <i class="fa-solid fa-table-cells"></i>
-                <span>Matrix</span>
-            </button>
-            <button onclick="switchTab('episodes')" id="nav-episodes" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5 shrink-0">
-                <i class="fa-solid fa-film"></i>
-                <span>Archive</span>
-            </button>
-            <button onclick="switchTab('stills')" id="nav-stills" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5 shrink-0">
-                <i class="fa-solid fa-camera-retro"></i>
-                <span>Stills</span>
-            </button>
-        </div>
-
-        <div class="flex items-center space-x-3">
-            <button onclick="openCloudSyncModal()" class="px-3.5 py-2 rounded-xl bg-cardbg border border-cardborder hover:bg-cardborder/80 hover:border-slate-700 text-slate-300 font-medium text-xs transition-all duration-200 flex items-center space-x-2 shadow-sm" title="Cloud Sync & Backup">
+        <div class="flex items-center space-x-2">
+            <button onclick="openCloudSyncModal()" class="w-9 h-9 rounded-xl bg-cardbg border border-cardborder hover:bg-cardborder text-slate-300 flex items-center justify-center text-xs transition-all shadow-sm" title="Cloud Sync & Backup">
                 <i class="fa-solid fa-cloud text-accentcyan"></i>
-                <span id="cloud-status-text" class="hidden sm:inline">Sync</span>
             </button>
-            <button onclick="openModalForToday()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs md:text-sm shadow-lg shadow-accentviolet/25 hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center space-x-2 shrink-0 ring-1 ring-white/20">
-                <i class="fa-solid fa-plus"></i>
-                <span>Log Today</span>
+            <button onclick="openExportImportModal()" class="w-9 h-9 rounded-xl bg-cardbg border border-cardborder hover:bg-cardborder text-slate-300 flex items-center justify-center text-xs transition-all shadow-sm md:hidden" title="Backup / Restore">
+                <i class="fa-solid fa-file-export text-accentviolet"></i>
+            </button>
+            <button onclick="openModalForToday()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 active:scale-95 transition-all flex items-center space-x-1.5 shrink-0 ring-1 ring-white/20">
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span class="text-xs">Log Today</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 space-y-8">
+    <!-- Desktop Navigation Bar (Hidden on Mobile) -->
+    <nav class="hidden md:flex border-b border-cardborder bg-cardbg/50 px-8 py-2.5 items-center justify-center space-x-2 sticky top-[61px] z-30 backdrop-blur-md">
+        <button onclick="switchTab('dashboard')" id="nav-desk-dashboard" class="px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 bg-accentviolet text-white shadow-lg shadow-accentviolet/20">
+            <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('calendar')" id="nav-desk-calendar" class="px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5">
+            <i class="fa-solid fa-calendar-days"></i><span>Calendar</span>
+        </button>
+        <button onclick="switchTab('matrix')" id="nav-desk-matrix" class="px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5">
+            <i class="fa-solid fa-table-cells"></i><span>Matrix</span>
+        </button>
+        <button onclick="switchTab('episodes')" id="nav-desk-episodes" class="px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5">
+            <i class="fa-solid fa-film"></i><span>Archive</span>
+        </button>
+        <button onclick="switchTab('stills')" id="nav-desk-stills" class="px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5">
+            <i class="fa-solid fa-camera-retro"></i><span>Stills</span>
+        </button>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-6">
 
         <!-- TAB 1: DASHBOARD -->
-        <section id="tab-dashboard" class="space-y-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl relative overflow-hidden group hover:border-accentviolet/40 hover:shadow-lg hover:shadow-accentviolet/5 transition-all duration-300">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-accentviolet/10 rounded-full blur-2xl group-hover:bg-accentviolet/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Total Episodes</span>
-                        <div class="w-10 h-10 rounded-2xl bg-accentviolet/15 text-accentviolet flex items-center justify-center ring-1 ring-accentviolet/20">
-                            <i class="fa-solid fa-clapperboard"></i>
+        <section id="tab-dashboard" class="space-y-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold">Episodes</span>
+                        <div class="w-8 h-8 rounded-xl bg-accentviolet/15 text-accentviolet flex items-center justify-center">
+                            <i class="fa-solid fa-clapperboard text-xs"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-bold font-mono tracking-tight text-white" id="stat-total-episodes">0</div>
-                    <p class="text-xs text-slate-400 mt-1">Logged days in the series</p>
+                    <div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white" id="stat-total-episodes">0</div>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Logged days</p>
                 </div>
 
-                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl relative overflow-hidden group hover:border-accentamber/40 hover:shadow-lg hover:shadow-accentamber/5 transition-all duration-300">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-accentamber/10 rounded-full blur-2xl group-hover:bg-accentamber/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Average Rating</span>
-                        <div class="w-10 h-10 rounded-2xl bg-accentamber/15 text-accentamber flex items-center justify-center ring-1 ring-accentamber/20">
-                            <i class="fa-solid fa-star"></i>
+                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold">Rating</span>
+                        <div class="w-8 h-8 rounded-xl bg-accentamber/15 text-accentamber flex items-center justify-center">
+                            <i class="fa-solid fa-star text-xs"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-bold font-mono tracking-tight text-white flex items-baseline space-x-1">
+                    <div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white flex items-baseline space-x-1">
                         <span id="stat-avg-rating">0.0</span>
-                        <span class="text-sm font-normal text-slate-400">/ 10</span>
+                        <span class="text-xs font-normal text-slate-400">/10</span>
                     </div>
-                    <p class="text-xs text-slate-400 mt-1">Series IMDb score equivalent</p>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mt-1">IMDb equivalent</p>
                 </div>
 
-                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl relative overflow-hidden group hover:border-accentcyan/40 hover:shadow-lg hover:shadow-accentcyan/5 transition-all duration-300">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-accentcyan/10 rounded-full blur-2xl group-hover:bg-accentcyan/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Current Season</span>
-                        <div class="w-10 h-10 rounded-2xl bg-accentcyan/15 text-accentcyan flex items-center justify-center ring-1 ring-accentcyan/20">
-                            <i class="fa-solid fa-tv"></i>
+                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold">Season</span>
+                        <div class="w-8 h-8 rounded-xl bg-accentcyan/15 text-accentcyan flex items-center justify-center">
+                            <i class="fa-solid fa-tv text-xs"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-bold font-mono tracking-tight text-white" id="stat-current-season">Season 1</div>
-                    <p class="text-xs text-slate-400 mt-1">Based on timeline progression</p>
+                    <div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white truncate" id="stat-current-season">S1</div>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Timeline progression</p>
                 </div>
 
-                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl relative overflow-hidden group hover:border-rose-500/40 hover:shadow-lg hover:shadow-rose-500/5 transition-all duration-300">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Current Streak</span>
-                        <div class="w-10 h-10 rounded-2xl bg-rose-500/15 text-rose-400 flex items-center justify-center ring-1 ring-rose-500/20">
-                            <i class="fa-solid fa-fire"></i>
+                <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold">Streak</span>
+                        <div class="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center">
+                            <i class="fa-solid fa-fire text-xs"></i>
                         </div>
                     </div>
-                    <div class="text-3xl font-bold font-mono tracking-tight text-white"><span id="stat-streak">0</span> <span class="text-lg font-normal text-slate-400">Days</span></div>
-                    <p class="text-xs text-slate-400 mt-1">Consecutive logged days</p>
+                    <div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white"><span id="stat-streak">0</span> <span class="text-sm font-normal text-slate-400">d</span></div>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mt-1">Consecutive days</p>
                 </div>
             </div>
 
             <!-- Spotlight Banner -->
-            <div class="bg-gradient-to-br from-cardbg via-cardbg to-indigo-950/30 border border-cardborder rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
-                <div class="absolute right-0 top-0 w-96 h-full bg-accentviolet/10 blur-3xl pointer-events-none"></div>
-                <div class="space-y-3 z-10">
-                    <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-accentviolet/10 border border-accentviolet/20 text-accentviolet text-xs font-semibold tracking-wide">
-                        <i class="fa-solid fa-video"></i>
+            <div class="bg-gradient-to-br from-cardbg via-cardbg to-indigo-950/30 border border-cardborder rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative overflow-hidden shadow-xl">
+                <div class="space-y-2 z-10">
+                    <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-accentviolet/10 border border-accentviolet/20 text-accentviolet text-[11px] font-semibold tracking-wide">
+                        <i class="fa-solid fa-video text-[10px]"></i>
                         <span>NOW STREAMING LIVE</span>
                     </div>
-                    <h2 class="cinematic-font text-2xl md:text-3xl font-bold text-white tracking-wide">Your Life's Masterpiece</h2>
-                    <p class="text-slate-400 text-sm max-w-xl leading-relaxed">Every single day is a new episode in your grand timeline. Keep your plot summaries sharp, rate your days honestly with decimal precision, and immortalize your memories with photos.</p>
+                    <h2 class="cinematic-font text-xl sm:text-3xl font-bold text-white tracking-wide">Your Life's Masterpiece</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm max-w-xl leading-relaxed">Every day is a new episode in your timeline. Keep plot summaries sharp and rate days honestly.</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 z-10 shrink-0">
-                    <button onclick="openModalForToday()" class="px-6 py-3 rounded-2xl bg-white text-darkbg font-bold hover:bg-slate-200 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center space-x-2 text-sm">
+                <div class="flex items-center gap-2.5 z-10 w-full sm:w-auto pt-2 sm:pt-0">
+                    <button onclick="openModalForToday()" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white text-darkbg font-bold active:scale-95 transition-all shadow-xl flex items-center justify-center space-x-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-circle-play text-accentviolet"></i>
                         <span>Record Today</span>
                     </button>
-                    <button onclick="openExportImportModal()" class="px-5 py-3 rounded-2xl bg-cardborder/80 hover:bg-cardborder text-white font-medium hover:scale-[1.02] active:scale-[0.98] transition-all text-sm flex items-center space-x-2 border border-white/5">
+                    <button onclick="openExportImportModal()" class="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-cardborder/80 hover:bg-cardborder text-white font-medium active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center space-x-2 border border-white/5">
                         <i class="fa-solid fa-file-export text-accentcyan"></i>
-                        <span>Backup</span>
+                        <span class="hidden sm:inline">Backup</span>
                     </button>
                 </div>
             </div>
 
             <!-- Recent Episodes Grid -->
-            <div class="space-y-4">
+            <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                    <h3 class="cinematic-font text-lg font-bold text-white flex items-center space-x-2 tracking-wide">
+                    <h3 class="cinematic-font text-base sm:text-lg font-bold text-white flex items-center space-x-2 tracking-wide">
                         <i class="fa-solid fa-film text-accentviolet"></i>
                         <span>Latest Episodes</span>
                     </h3>
                     <button onclick="switchTab('episodes')" class="text-xs text-accentviolet hover:text-accentviolet/80 font-semibold transition-colors flex items-center space-x-1">
-                        <span>View All Episodes</span>
+                        <span>View All</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </button>
                 </div>
-                <div id="recent-episodes-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div id="recent-episodes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <!-- Populated by JS -->
                 </div>
             </div>
         </section>
 
         <!-- TAB 2: CALENDAR VIEW -->
-        <section id="tab-calendar" class="space-y-6 hidden">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl shadow-xl">
-                <div class="flex items-center justify-between w-full sm:w-auto gap-4">
-                    <div class="w-48 sm:w-56 text-left shrink-0">
-                        <h2 id="calendar-month-year" class="cinematic-font text-xl md:text-2xl font-bold text-white truncate tracking-wide">Month Year</h2>
-                    </div>
-                    <div class="flex items-center space-x-1 bg-darkbg border border-cardborder rounded-2xl p-1 shrink-0">
-                        <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-xl hover:bg-cardborder flex items-center justify-center text-slate-300 transition-all" title="Previous Month">
-                            <i class="fa-solid fa-chevron-left text-xs"></i>
+        <section id="tab-calendar" class="space-y-4 hidden">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 rounded-2xl sm:rounded-3xl shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h2 id="calendar-month-year" class="cinematic-font text-lg sm:text-2xl font-bold text-white tracking-wide truncate">Month Year</h2>
+                    <div class="flex items-center space-x-1 bg-darkbg border border-cardborder rounded-xl p-1 shrink-0">
+                        <button onclick="changeMonth(-1)" class="w-7 h-7 rounded-lg hover:bg-cardborder flex items-center justify-center text-slate-300">
+                            <i class="fa-solid fa-chevron-left text-[10px]"></i>
                         </button>
-                        <button onclick="goToCurrentMonth()" class="px-3 py-1 rounded-xl hover:bg-cardborder text-xs font-semibold text-slate-300 transition-all">
+                        <button onclick="goToCurrentMonth()" class="px-2.5 py-1 rounded-lg hover:bg-cardborder text-xs font-semibold text-slate-300">
                             Today
                         </button>
-                        <button onclick="changeMonth(1)" class="w-8 h-8 rounded-xl hover:bg-cardborder flex items-center justify-center text-slate-300 transition-all" title="Next Month">
-                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        <button onclick="changeMonth(1)" class="w-7 h-7 rounded-lg hover:bg-cardborder flex items-center justify-center text-slate-300">
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cinemaBlue"></span><span>Cinema (9.5+)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-vibrantGreen"></span><span>Great (8.0-8.9)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brightYellow"></span><span>Good (7.0-7.9)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orangeTier"></span><span>Average (5.5-6.9)</span></div>
+                <div class="flex items-center justify-start sm:justify-end gap-2 text-[10px] text-slate-400 overflow-x-auto pb-1 sm:pb-0">
+                    <div class="flex items-center space-x-1 shrink-0"><span class="w-2 h-2 rounded-full bg-cinemaBlue"></span><span>9.5+</span></div>
+                    <div class="flex items-center space-x-1 shrink-0"><span class="w-2 h-2 rounded-full bg-vibrantGreen"></span><span>8.0+</span></div>
+                    <div class="flex items-center space-x-1 shrink-0"><span class="w-2 h-2 rounded-full bg-brightYellow"></span><span>7.0+</span></div>
+                    <div class="flex items-center space-x-1 shrink-0"><span class="w-2 h-2 rounded-full bg-orangeTier"></span><span>5.5+</span></div>
+                    <div class="flex items-center space-x-1 shrink-0"><span class="w-2 h-2 rounded-full bg-redTier"></span><span>&lt;5.5</span></div>
                 </div>
             </div>
 
-            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-3xl overflow-hidden shadow-2xl">
-                <div class="grid grid-cols-7 border-b border-cardborder bg-darkbg/40 text-center py-3.5 text-xs font-semibold text-slate-400 tracking-wider">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+                <div class="grid grid-cols-7 border-b border-cardborder bg-darkbg/40 text-center py-2.5 text-[11px] font-semibold text-slate-400 tracking-wider">
                     <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
                 </div>
-                <div id="calendar-grid-cells" class="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-cardborder/60 bg-cardborder/20">
+                <div id="calendar-grid-cells" class="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-cardborder/60 bg-cardborder/20 text-xs">
                     <!-- Populated by JS -->
                 </div>
             </div>
         </section>
 
         <!-- TAB 3: SEASON MATRIX VIEW -->
-        <section id="tab-matrix" class="space-y-6 hidden">
-            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl">
+        <section id="tab-matrix" class="space-y-4 hidden">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col gap-4 shadow-xl">
                 <div>
-                    <h2 class="cinematic-font text-xl md:text-2xl font-bold text-white tracking-wide">Season Matrix Graph</h2>
-                    <p class="text-xs text-slate-400 mt-1">Visualize your life series progression broken down by month with averages.</p>
+                    <h2 class="cinematic-font text-lg sm:text-2xl font-bold text-white tracking-wide">Season Matrix Graph</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Vertical month rows with daily timeline progression.</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 bg-darkbg border border-cardborder p-2.5 rounded-2xl">
-                    <div class="flex items-center space-x-2 px-2">
-                        <span class="text-[11px] font-semibold text-slate-400">Start:</span>
-                        <input type="date" id="matrix-start-date" onchange="updateMatrixDateRange()" class="bg-cardbg border border-cardborder rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-accentviolet font-mono">
+                <div class="flex flex-wrap items-center gap-2 bg-darkbg border border-cardborder p-2 rounded-2xl">
+                    <div class="flex items-center space-x-1.5 flex-1 min-w-[130px]">
+                        <span class="text-[10px] font-semibold text-slate-400">Start:</span>
+                        <input type="date" id="matrix-start-date" onchange="updateMatrixDateRange()" class="w-full bg-cardbg border border-cardborder rounded-xl px-2 py-1 text-xs text-white focus:outline-none focus:border-accentviolet font-mono">
                     </div>
-                    <div class="flex items-center space-x-2 px-2">
-                        <span class="text-[11px] font-semibold text-slate-400">End:</span>
-                        <input type="date" id="matrix-end-date" onchange="updateMatrixDateRange()" class="bg-cardbg border border-cardborder rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-accentviolet font-mono">
+                    <div class="flex items-center space-x-1.5 flex-1 min-w-[130px]">
+                        <span class="text-[10px] font-semibold text-slate-400">End:</span>
+                        <input type="date" id="matrix-end-date" onchange="updateMatrixDateRange()" class="w-full bg-cardbg border border-cardborder rounded-xl px-2 py-1 text-xs text-white focus:outline-none focus:border-accentviolet font-mono">
                     </div>
-                    <button onclick="resetMatrixDefaultRange()" class="px-3.5 py-1.5 bg-cardborder hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition-all">
+                    <button onclick="resetMatrixDefaultRange()" class="px-3 py-1.5 bg-cardborder hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition-all w-full sm:w-auto">
                         Reset Year
                     </button>
                 </div>
             </div>
 
             <!-- Detailed Color Tier Legend -->
-            <div class="bg-cardbg/80 backdrop-blur-xl border border-cardborder p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs shadow-lg">
-                <div class="flex flex-wrap items-center gap-4">
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-cinemaBlue"></span><span class="text-slate-300 font-medium">Cinema (9.5-10)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-forestGreen"></span><span class="text-slate-300 font-medium">Awesome (9.0-9.4)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-vibrantGreen"></span><span class="text-slate-300 font-medium">Great (8.0-8.9)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-brightYellow"></span><span class="text-slate-300 font-medium">Good (7.0-7.9)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-orangeTier"></span><span class="text-slate-300 font-medium">Average (5.5-6.9)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-redTier"></span><span class="text-slate-300 font-medium">Bad (4.0-5.4)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-purpleTier"></span><span class="text-slate-300 font-medium">Garbage (&lt;4.0)</span></div>
-                    <div class="flex items-center space-x-1.5"><span class="w-3.5 h-3.5 rounded-lg bg-cardborder border border-slate-600"></span><span class="text-slate-400">Unreleased</span></div>
+            <div class="bg-cardbg/85 backdrop-blur-xl border border-cardborder p-3.5 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-[11px] shadow-lg">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-cinemaBlue"></span><span class="text-slate-300">9.5+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-forestGreen"></span><span class="text-slate-300">9.0+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-vibrantGreen"></span><span class="text-slate-300">8.0+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-brightYellow"></span><span class="text-slate-300">7.0+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-orangeTier"></span><span class="text-slate-300">5.5+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-redTier"></span><span class="text-slate-300">4.0+</span></div>
+                    <div class="flex items-center space-x-1"><span class="w-3 h-3 rounded-md bg-purpleTier"></span><span class="text-slate-300">&lt;4</span></div>
                 </div>
-                <div id="matrix-total-days-badge" class="text-slate-400 font-mono text-[11px] bg-darkbg px-3 py-1 rounded-xl border border-cardborder">Total Range: 0 days</div>
+                <div id="matrix-total-days-badge" class="text-slate-400 font-mono text-[10px] bg-darkbg px-2.5 py-1 rounded-xl border border-cardborder">Total: 0 days</div>
             </div>
 
             <!-- Matrix Render Container -->
-            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-3xl p-6 overflow-x-auto shadow-2xl">
-                <div id="matrix-container" class="min-w-[850px] space-y-8">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-2xl sm:rounded-3xl p-4 sm:p-6 overflow-x-auto shadow-2xl">
+                <div id="matrix-container" class="min-w-[760px] space-y-2">
                     <!-- Populated by JS -->
                 </div>
             </div>
         </section>
 
         <!-- TAB 4: EPISODES LIST & GALLERY -->
-        <section id="tab-episodes" class="space-y-6 hidden">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl shadow-xl">
+        <section id="tab-episodes" class="space-y-4 hidden">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 rounded-2xl sm:rounded-3xl space-y-3 shadow-xl">
                 <div>
-                    <h2 class="cinematic-font text-xl font-bold text-white tracking-wide">Full Series Archive</h2>
-                    <p class="text-xs text-slate-400">Browse every episode ever recorded in your lifetime series.</p>
+                    <h2 class="cinematic-font text-lg font-bold text-white tracking-wide">Full Series Archive</h2>
+                    <p class="text-xs text-slate-400">Browse every recorded episode.</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                    <div class="relative flex-1 sm:w-52">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div class="relative">
                         <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                        <input type="text" id="episode-search" oninput="renderEpisodeList()" placeholder="Search title or plot..." class="w-full bg-darkbg border border-cardborder rounded-2xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet transition-all">
+                        <input type="text" id="episode-search" oninput="renderEpisodeList()" placeholder="Search title or plot..." class="w-full bg-darkbg border border-cardborder rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet">
                     </div>
-                    <select id="season-filter" onchange="renderEpisodeList()" class="bg-darkbg border border-cardborder rounded-2xl px-3 py-2 text-xs text-white focus:outline-none focus:border-accentviolet transition-all">
+                    <select id="season-filter" onchange="renderEpisodeList()" class="bg-darkbg border border-cardborder rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-accentviolet">
                         <option value="all">All Seasons</option>
                     </select>
-                    <select id="sort-filter" onchange="renderEpisodeList()" class="bg-darkbg border border-cardborder rounded-2xl px-3 py-2 text-xs text-white focus:outline-none focus:border-accentviolet transition-all">
+                    <select id="sort-filter" onchange="renderEpisodeList()" class="bg-darkbg border border-cardborder rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-accentviolet">
                         <option value="date-desc">Newest First</option>
                         <option value="date-asc">Oldest First</option>
                         <option value="rating-desc">Highest Rating (★ 10-1)</option>
@@ -314,140 +306,155 @@
                 </div>
             </div>
 
-            <div id="episodes-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="episodes-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Populated by JS -->
             </div>
         </section>
 
         <!-- TAB 5: PHOTO OF THE DAY / STAGED STILLS CYCLE -->
-        <section id="tab-stills" class="space-y-6 hidden">
-            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <section id="tab-stills" class="space-y-4 hidden">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-cardborder p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
                 <div>
-                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accentviolet/10 border border-accentviolet/20 text-accentviolet text-xs font-semibold mb-2 tracking-wide">
-                        <i class="fa-solid fa-camera-retro"></i>
+                    <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-accentviolet/10 border border-accentviolet/20 text-accentviolet text-[11px] font-semibold mb-1.5 tracking-wide">
+                        <i class="fa-solid fa-camera-retro text-[10px]"></i>
                         <span>DAILY CINEMATIC REWIND</span>
                     </div>
-                    <h2 class="cinematic-font text-xl md:text-2xl font-bold text-white tracking-wide">Photo of the Day Archive</h2>
-                    <p class="text-xs text-slate-400 mt-1">Cycle through random photographic stills captured throughout your series timeline.</p>
+                    <h2 class="cinematic-font text-lg sm:text-2xl font-bold text-white tracking-wide">Photo Still Archive</h2>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="loadRandomStill()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 hover:opacity-95 transition-all flex items-center space-x-2 ring-1 ring-white/20">
-                        <i class="fa-solid fa-shuffle"></i>
-                        <span>Shuffle Next Still</span>
-                    </button>
-                </div>
+                <button onclick="loadRandomStill()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 active:scale-95 transition-all flex items-center justify-center space-x-2 ring-1 ring-white/20">
+                    <i class="fa-solid fa-shuffle text-xs"></i>
+                    <span>Shuffle Still</span>
+                </button>
             </div>
 
-            <div id="stills-display-container" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+            <div id="stills-display-container" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
                 <!-- Populated by JS -->
             </div>
         </section>
 
     </main>
 
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-cardbg/95 backdrop-blur-xl border-t border-cardborder px-2 py-2 flex items-center justify-around shadow-2xl">
+        <button onclick="switchTab('dashboard')" id="nav-mob-dashboard" class="flex flex-col items-center justify-center py-1 px-3 text-accentviolet transition-all">
+            <i class="fa-solid fa-chart-pie text-base"></i>
+            <span class="text-[10px] font-medium mt-1">Home</span>
+        </button>
+        <button onclick="switchTab('calendar')" id="nav-mob-calendar" class="flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white transition-all">
+            <i class="fa-solid fa-calendar-days text-base"></i>
+            <span class="text-[10px] font-medium mt-1">Calendar</span>
+        </button>
+        <button onclick="switchTab('matrix')" id="nav-mob-matrix" class="flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white transition-all">
+            <i class="fa-solid fa-table-cells text-base"></i>
+            <span class="text-[10px] font-medium mt-1">Matrix</span>
+        </button>
+        <button onclick="switchTab('episodes')" id="nav-mob-episodes" class="flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white transition-all">
+            <i class="fa-solid fa-film text-base"></i>
+            <span class="text-[10px] font-medium mt-1">Archive</span>
+        </button>
+        <button onclick="switchTab('stills')" id="nav-mob-stills" class="flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white transition-all">
+            <i class="fa-solid fa-camera-retro text-base"></i>
+            <span class="text-[10px] font-medium mt-1">Stills</span>
+        </button>
+    </nav>
+
     <!-- Modal: Episode Form / Viewer -->
-    <div id="episode-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-cardbg border border-cardborder w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 my-8" id="modal-content">
-            <div class="px-6 py-4 border-b border-cardborder flex items-center justify-between bg-darkbg/50">
-                <div class="flex items-center space-x-3">
-                    <span id="modal-badge-season" class="px-3 py-1 rounded-full bg-accentviolet/15 border border-accentviolet/30 text-accentviolet text-xs font-mono font-bold">S01E01</span>
+    <div id="episode-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+        <div class="bg-cardbg border-t sm:border border-cardborder w-full max-w-2xl rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] flex flex-col" id="modal-content">
+            <div class="px-5 py-3.5 border-b border-cardborder flex items-center justify-between bg-darkbg/80 shrink-0">
+                <div class="flex items-center space-x-2.5">
+                    <span id="modal-badge-season" class="px-2.5 py-0.5 rounded-full bg-accentviolet/15 border border-accentviolet/30 text-accentviolet text-[11px] font-mono font-bold">S01E01</span>
                     <span id="modal-display-date" class="text-xs text-slate-400 font-mono"></span>
                 </div>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                <button onclick="closeModal()" class="w-7 h-7 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400 hover:text-white transition-all">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
 
-            <form id="episode-form" onsubmit="saveEpisode(event)" class="p-6 space-y-6">
+            <form id="episode-form" onsubmit="saveEpisode(event)" class="p-5 space-y-4 overflow-y-auto flex-1">
                 <input type="hidden" id="form-date-key">
 
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                        <i class="fa-solid fa-heading text-accentviolet"></i>
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-heading text-accentviolet text-xs"></i>
                         <span>Episode Title</span>
                     </label>
-                    <input type="text" id="form-title" required placeholder="e.g. The One Where Everything Changed" class="w-full bg-darkbg border border-cardborder rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet transition-all font-medium">
+                    <input type="text" id="form-title" required placeholder="e.g. The One Where Everything Changed" class="w-full bg-darkbg border border-cardborder rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet font-medium">
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-2">
-                        <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-tv text-accentcyan"></i>
-                            <span>Season Number</span>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-tv text-accentcyan text-xs"></i>
+                            <span>Season No.</span>
                         </label>
-                        <input type="number" id="form-season" min="1" value="1" class="w-full bg-darkbg border border-cardborder rounded-2xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-accentviolet transition-all">
+                        <input type="number" id="form-season" min="1" value="1" class="w-full bg-darkbg border border-cardborder rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-accentviolet">
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-list-ol text-accentcyan"></i>
-                            <span>Episode Number</span>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-list-ol text-accentcyan text-xs"></i>
+                            <span>Episode No.</span>
                         </label>
-                        <input type="number" id="form-episode-num" min="1" value="1" class="w-full bg-darkbg border border-cardborder rounded-2xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-accentviolet transition-all">
+                        <input type="number" id="form-episode-num" min="1" value="1" class="w-full bg-darkbg border border-cardborder rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-accentviolet">
                     </div>
                 </div>
 
-                <div class="space-y-3 bg-darkbg/60 border border-cardborder p-4 rounded-2xl">
+                <div class="space-y-2.5 bg-darkbg/60 border border-cardborder p-3.5 rounded-xl">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-star text-accentamber"></i>
-                            <span>Episode Rating (/10 Decimal e.g. 9.1)</span>
+                        <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-star text-accentamber text-xs"></i>
+                            <span>Rating (/10)</span>
                         </label>
-                        <div class="flex items-center space-x-2">
-                            <input type="number" id="form-rating-num" min="1" max="10" step="0.1" value="8.0" oninput="syncRatingFromInput(this.value)" class="w-20 bg-darkbg border border-cardborder rounded-xl px-2 py-1 text-sm font-mono font-bold text-accentamber text-center focus:outline-none focus:border-accentamber">
-                            <span class="text-sm font-mono font-bold text-slate-400">/ 10</span>
+                        <div class="flex items-center space-x-1.5">
+                            <input type="number" id="form-rating-num" min="1" max="10" step="0.1" value="8.0" oninput="syncRatingFromInput(this.value)" class="w-16 bg-darkbg border border-cardborder rounded-lg px-2 py-1 text-xs font-mono font-bold text-accentamber text-center focus:outline-none focus:border-accentamber">
+                            <span class="text-xs font-mono font-bold text-slate-400">/10</span>
                         </div>
                     </div>
                     <input type="range" id="form-rating" min="1" max="10" value="8.0" step="0.1" oninput="syncRatingFromRange(this.value)" class="w-full accent-accentamber cursor-pointer h-2 bg-cardborder rounded-lg">
-                    <div class="flex justify-between text-[10px] text-slate-500 font-mono">
-                        <span>1.0 (Garbage)</span>
-                        <span>5.5 (Average)</span>
-                        <span>10.0 (Cinema)</span>
-                    </div>
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                        <i class="fa-solid fa-feather text-accentviolet"></i>
-                        <span>Plot Summary (TV Episode Description)</span>
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-feather text-accentviolet text-xs"></i>
+                        <span>Plot Summary</span>
                     </label>
-                    <textarea id="form-summary" rows="4" placeholder="Write a quick summary of today's events like a TV episode synopsis..." class="w-full bg-darkbg border border-cardborder rounded-2xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet transition-all resize-none"></textarea>
+                    <textarea id="form-summary" rows="3" placeholder="Write a quick summary of today's events..." class="w-full bg-darkbg border border-cardborder rounded-xl p-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accentviolet resize-none"></textarea>
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                        <i class="fa-solid fa-camera text-accentcyan"></i>
-                        <span>Episode Stills (Upload Photo)</span>
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-camera text-accentcyan text-xs"></i>
+                        <span>Episode Still (Photo)</span>
                     </label>
-                    <div class="border-2 border-dashed border-cardborder hover:border-accentviolet/50 rounded-2xl p-4 text-center cursor-pointer transition-all bg-darkbg/30 relative overflow-hidden" onclick="document.getElementById('form-photo-input').click()">
+                    <div class="border-2 border-dashed border-cardborder hover:border-accentviolet/50 rounded-xl p-3 text-center cursor-pointer transition-all bg-darkbg/30 relative overflow-hidden" onclick="document.getElementById('form-photo-input').click()">
                         <input type="file" id="form-photo-input" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden">
-                        <div id="photo-preview-container" class="space-y-2">
-                            <div class="w-12 h-12 rounded-2xl bg-accentcyan/10 text-accentcyan mx-auto flex items-center justify-center text-xl">
+                        <div id="photo-preview-container" class="space-y-1.5 py-2">
+                            <div class="w-10 h-10 rounded-xl bg-accentcyan/10 text-accentcyan mx-auto flex items-center justify-center text-lg">
                                 <i class="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <p class="text-xs text-slate-300 font-medium">Click to upload or drag & drop episode photo</p>
-                            <p class="text-[10px] text-slate-500">PNG, JPG, WEBP up to 5MB</p>
+                            <p class="text-[11px] text-slate-300 font-medium">Click to upload episode photo</p>
                         </div>
-                        <div id="photo-preview-wrapper" class="hidden relative rounded-xl overflow-hidden max-h-48 mx-auto">
+                        <div id="photo-preview-wrapper" class="hidden relative rounded-lg overflow-hidden max-h-40 mx-auto">
                             <img id="form-photo-preview" src="" alt="Preview" class="w-full h-full object-cover">
-                            <button type="button" onclick="removePhoto(event)" class="absolute top-2 right-2 bg-black/70 hover:bg-rose-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all">
+                            <button type="button" onclick="removePhoto(event)" class="absolute top-2 right-2 bg-black/70 hover:bg-rose-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-all">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between pt-4 border-t border-cardborder">
-                    <button type="button" onclick="deleteCurrentEpisode()" id="btn-delete-episode" class="px-4 py-2.5 rounded-2xl bg-rose-500/10 text-rose-400 font-medium text-xs hover:bg-rose-500/20 transition-all flex items-center space-x-2">
-                        <i class="fa-solid fa-trash"></i>
+                <div class="flex items-center justify-between pt-3 border-t border-cardborder">
+                    <button type="button" onclick="deleteCurrentEpisode()" id="btn-delete-episode" class="px-3 py-2 rounded-xl bg-rose-500/10 text-rose-400 font-medium text-xs hover:bg-rose-500/20 transition-all flex items-center space-x-1.5">
+                        <i class="fa-solid fa-trash text-[10px]"></i>
                         <span>Delete</span>
                     </button>
-                    <div class="flex items-center space-x-3">
-                        <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-2xl bg-darkbg border border-cardborder text-slate-300 font-medium text-xs hover:bg-cardborder transition-all">
+                    <div class="flex items-center space-x-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-darkbg border border-cardborder text-slate-300 font-medium text-xs hover:bg-cardborder">
                             Cancel
                         </button>
-                        <button type="submit" class="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 hover:opacity-95 transition-all flex items-center space-x-2">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            <span>Save Episode</span>
+                        <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-accentviolet to-indigo-600 text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-floppy-disk text-[10px]"></i>
+                            <span>Save</span>
                         </button>
                     </div>
                 </div>
@@ -455,33 +462,30 @@
         </div>
     </div>
 
-    <!-- Modal: Cloud Sync Status & Setup -->
+    <!-- Modal: Cloud Sync Status -->
     <div id="cloud-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="bg-cardbg border border-cardborder w-full max-w-md rounded-3xl shadow-2xl p-6 space-y-6">
+        <div class="bg-cardbg border border-cardborder w-full max-w-md rounded-3xl shadow-2xl p-5 space-y-4 text-xs">
             <div class="flex items-center justify-between">
-                <h3 class="cinematic-font text-lg font-bold text-white flex items-center space-x-2 tracking-wide">
+                <h3 class="cinematic-font text-base font-bold text-white flex items-center space-x-2">
                     <i class="fa-solid fa-cloud text-accentcyan"></i>
-                    <span>Cloud Sync Status</span>
+                    <span>Cloud Sync</span>
                 </h3>
-                <button onclick="closeCloudSyncModal()" class="w-8 h-8 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                <button onclick="closeCloudSyncModal()" class="w-7 h-7 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-4 text-xs text-slate-300">
-                <div class="bg-darkbg p-4 rounded-2xl border border-cardborder space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-400">Connection State:</span>
-                        <span id="sync-badge" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold text-[11px]">Connected</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-400">User ID:</span>
-                        <span id="sync-userid" class="font-mono text-[10px] text-slate-400 truncate max-w-[200px]">Authenticating...</span>
-                    </div>
+            <div class="bg-darkbg p-3.5 rounded-2xl border border-cardborder space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-400">Status:</span>
+                    <span id="sync-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold text-[10px]">Connected</span>
                 </div>
-                <p class="text-slate-400 leading-relaxed">Your life series is securely synchronized across your personal cloud database in real time. All episodes and ratings persist automatically.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-400">User ID:</span>
+                    <span id="sync-userid" class="font-mono text-[9px] text-slate-400 truncate max-w-[180px]">Authenticating...</span>
+                </div>
             </div>
-            <div class="flex justify-end pt-2">
-                <button onclick="closeCloudSyncModal()" class="px-5 py-2.5 rounded-2xl bg-accentcyan text-darkbg font-bold text-xs hover:opacity-90 transition-all">
+            <div class="flex justify-end">
+                <button onclick="closeCloudSyncModal()" class="px-4 py-2 rounded-xl bg-accentcyan text-darkbg font-bold text-xs">
                     Close
                 </button>
             </div>
@@ -490,33 +494,31 @@
 
     <!-- Modal: Export & Import Timeline -->
     <div id="export-import-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="bg-cardbg border border-cardborder w-full max-w-lg rounded-3xl shadow-2xl p-6 space-y-6">
+        <div class="bg-cardbg border border-cardborder w-full max-w-md rounded-3xl shadow-2xl p-5 space-y-4 text-xs">
             <div class="flex items-center justify-between">
-                <h3 class="cinematic-font text-lg font-bold text-white flex items-center space-x-2 tracking-wide">
+                <h3 class="cinematic-font text-base font-bold text-white flex items-center space-x-2">
                     <i class="fa-solid fa-file-export text-accentviolet"></i>
-                    <span>Export / Import Backup</span>
+                    <span>Backup & Restore</span>
                 </h3>
-                <button onclick="closeExportImportModal()" class="w-8 h-8 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                <button onclick="closeExportImportModal()" class="w-7 h-7 rounded-full bg-darkbg hover:bg-cardborder flex items-center justify-center text-slate-400">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <div class="space-y-4 text-xs text-slate-300">
-                <div class="space-y-2">
-                    <label class="font-semibold text-slate-300 uppercase tracking-wider">Export Timeline JSON</label>
-                    <p class="text-slate-400 text-[11px]">Download your entire series archive as a JSON backup file.</p>
-                    <button onclick="exportTimelineJSON()" class="w-full py-2.5 rounded-2xl bg-cardborder hover:bg-slate-700 text-white font-semibold transition-all flex items-center justify-center space-x-2 border border-white/5">
+            <div class="space-y-3">
+                <div class="space-y-1.5">
+                    <label class="font-semibold text-slate-300 uppercase tracking-wider text-[10px]">Export JSON Backup</label>
+                    <button onclick="exportTimelineJSON()" class="w-full py-2.5 rounded-xl bg-cardborder hover:bg-slate-700 text-white font-semibold flex items-center justify-center space-x-2 border border-white/5">
                         <i class="fa-solid fa-download text-accentviolet"></i>
-                        <span>Download Backup File</span>
+                        <span>Download Backup</span>
                     </button>
                 </div>
-                <div class="border-t border-cardborder pt-4 space-y-2">
-                    <label class="font-semibold text-slate-300 uppercase tracking-wider">Import Timeline JSON</label>
-                    <p class="text-slate-400 text-[11px]">Restore or merge a previously exported LifeOS backup JSON file.</p>
-                    <input type="file" id="import-json-file" accept=".json" onchange="importTimelineJSON(event)" class="w-full bg-darkbg border border-cardborder rounded-2xl p-2.5 text-xs text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-accentviolet file:text-white hover:file:opacity-90">
+                <div class="border-t border-cardborder pt-3 space-y-1.5">
+                    <label class="font-semibold text-slate-300 uppercase tracking-wider text-[10px]">Import JSON Backup</label>
+                    <input type="file" id="import-json-file" accept=".json" onchange="importTimelineJSON(event)" class="w-full bg-darkbg border border-cardborder rounded-xl p-2 text-xs text-slate-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-accentviolet file:text-white">
                 </div>
             </div>
             <div class="flex justify-end pt-2">
-                <button onclick="closeExportImportModal()" class="px-5 py-2.5 rounded-2xl bg-darkbg border border-cardborder text-slate-300 font-medium text-xs hover:bg-cardborder transition-all">
+                <button onclick="closeExportImportModal()" class="px-4 py-2 rounded-xl bg-darkbg border border-cardborder text-slate-300 font-medium">
                     Close
                 </button>
             </div>
@@ -524,11 +526,11 @@
     </div>
 
     <!-- Toast Notification Box -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-cardbg/95 backdrop-blur-xl border border-cardborder text-white px-5 py-3 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3">
-        <div id="toast-icon" class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">
+    <div id="toast" class="fixed bottom-20 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-50 bg-cardbg/95 backdrop-blur-xl border border-cardborder text-white px-4 py-3 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center space-x-3">
+        <div id="toast-icon" class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] shrink-0">
             <i class="fa-solid fa-check"></i>
         </div>
-        <span id="toast-message" class="text-xs font-medium">Episode saved successfully!</span>
+        <span id="toast-message" class="text-xs font-medium truncate">Episode saved successfully!</span>
     </div>
 
     <script type="module">
@@ -536,7 +538,6 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables & Firebase setup
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'lifeos-series-default';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "demo", projectId: "demo" };
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : undefined;
@@ -560,7 +561,6 @@
             document.getElementById('matrix-start-date').value = matrixConfig.startDate;
             document.getElementById('matrix-end-date').value = matrixConfig.endDate;
 
-            // Initialize Firebase Auth & Firestore
             try {
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
@@ -574,15 +574,15 @@
 
                 userId = auth.currentUser?.uid || crypto.randomUUID();
                 document.getElementById('sync-userid').innerText = userId;
-                document.getElementById('sync-badge').innerText = 'Online Cloud Active';
+                document.getElementById('sync-badge').innerText = 'Online';
                 isCloudReady = true;
 
                 loadUserDataFromCloud();
             } catch (err) {
                 console.warn("Cloud connection fallback to local storage:", err);
                 document.getElementById('sync-badge').innerText = 'Local Mode';
-                document.getElementById('sync-badge').className = 'px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 font-semibold text-[11px]';
-                document.getElementById('sync-userid').innerText = 'Offline / LocalStorage';
+                document.getElementById('sync-badge').className = 'px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-semibold text-[10px]';
+                document.getElementById('sync-userid').innerText = 'LocalStorage';
                 
                 episodes = JSON.parse(localStorage.getItem('lifeos_episodes')) || {};
                 refreshUI();
@@ -626,13 +626,17 @@
             currentTab = tabId;
             ['dashboard', 'calendar', 'matrix', 'episodes', 'stills'].forEach(t => {
                 const el = document.getElementById(`tab-${t}`);
-                const btn = document.getElementById(`nav-${t}`);
+                const deskBtn = document.getElementById(`nav-desk-${t}`);
+                const mobBtn = document.getElementById(`nav-mob-${t}`);
+
                 if (t === tabId) {
                     el.classList.remove('hidden');
-                    btn.className = "px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 bg-accentviolet text-white shadow-lg shadow-accentviolet/20 shrink-0";
+                    if (deskBtn) deskBtn.className = "px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 bg-accentviolet text-white shadow-lg shadow-accentviolet/20";
+                    if (mobBtn) mobBtn.className = "flex flex-col items-center justify-center py-1 px-3 text-accentviolet transition-all";
                 } else {
                     el.classList.add('hidden');
-                    btn.className = "px-3.5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5 shrink-0";
+                    if (deskBtn) deskBtn.className = "px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-white/5";
+                    if (mobBtn) mobBtn.className = "flex flex-col items-center justify-center py-1 px-3 text-slate-400 hover:text-white transition-all";
                 }
             });
 
@@ -641,6 +645,7 @@
             if (tabId === 'episodes') renderEpisodeList();
             if (tabId === 'dashboard') updateDashboard();
             if (tabId === 'stills') loadRandomStill();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         function refreshUI() {
@@ -685,10 +690,10 @@
 
                 const latestKey = keys.sort().reverse()[0];
                 const calc = calculateSeasonAndEpisode(latestKey);
-                document.getElementById('stat-current-season').innerText = `Season ${calc.season}`;
+                document.getElementById('stat-current-season').innerText = `S${calc.season}`;
             } else {
                 document.getElementById('stat-avg-rating').innerText = '0.0';
-                document.getElementById('stat-current-season').innerText = 'Season 1';
+                document.getElementById('stat-current-season').innerText = 'S1';
             }
 
             let streak = 0;
@@ -711,14 +716,14 @@
             const recentContainer = document.getElementById('recent-episodes-grid');
             if (totalEpisodes === 0) {
                 recentContainer.innerHTML = `
-                    <div class="col-span-full bg-cardbg border border-cardborder rounded-3xl p-12 text-center space-y-3">
-                        <div class="w-16 h-16 bg-accentviolet/10 text-accentviolet rounded-2xl mx-auto flex items-center justify-center text-2xl">
+                    <div class="col-span-full bg-cardbg border border-cardborder rounded-2xl p-8 text-center space-y-3">
+                        <div class="w-12 h-12 bg-accentviolet/10 text-accentviolet rounded-xl mx-auto flex items-center justify-center text-xl">
                             <i class="fa-solid fa-clapperboard"></i>
                         </div>
-                        <h4 class="text-white font-bold text-sm">No Episodes Recorded Yet</h4>
-                        <p class="text-slate-400 text-xs max-w-sm mx-auto">Your series premiere is waiting! Click "Record Today" to write your first plot summary.</p>
-                        <button onclick="openModalForToday()" class="px-5 py-2.5 rounded-2xl bg-accentviolet text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 hover:opacity-90 transition-all inline-flex items-center space-x-2">
-                            <i class="fa-solid fa-plus"></i><span>Create Premiere Episode</span>
+                        <h4 class="text-white font-bold text-xs">No Episodes Recorded Yet</h4>
+                        <p class="text-slate-400 text-[11px] max-w-xs mx-auto">Click "Log Today" to record your first episode.</p>
+                        <button onclick="openModalForToday()" class="px-4 py-2 rounded-xl bg-accentviolet text-white font-semibold text-xs inline-flex items-center space-x-1.5">
+                            <i class="fa-solid fa-plus text-[10px]"></i><span>Create Premiere</span>
                         </button>
                     </div>
                 `;
@@ -733,39 +738,37 @@
                     const ratingStyle = getRatingColorStyle(ratingVal);
                     
                     return `
-                        <div onclick="openModalForDate('${k}')" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-3xl overflow-hidden group hover:border-accentviolet/40 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between">
+                        <div onclick="openModalForDate('${k}')" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-2xl sm:rounded-3xl overflow-hidden group active:scale-[0.98] transition-all cursor-pointer flex flex-col justify-between">
                             <div>
                                 ${ep.photo ? `
-                                    <div class="h-48 w-full overflow-hidden relative">
-                                        <img src="${ep.photo}" alt="${ep.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-transparent"></div>
-                                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-mono text-[11px] font-bold shadow-lg">
+                                    <div class="h-40 w-full overflow-hidden relative">
+                                        <img src="${ep.photo}" alt="${ep.title}" class="w-full h-full object-cover">
+                                        <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-mono text-[10px] font-bold">
                                             S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}
                                         </span>
                                     </div>
                                 ` : `
-                                    <div class="h-32 bg-darkbg border-b border-cardborder flex items-center justify-between p-4 relative">
-                                        <div class="absolute inset-0 bg-accentviolet/5"></div>
-                                        <span class="px-3 py-1 rounded-full bg-accentviolet/20 border border-accentviolet/30 text-accentviolet font-mono text-[11px] font-bold z-10">
+                                    <div class="h-24 bg-darkbg border-b border-cardborder flex items-center justify-between px-4 relative">
+                                        <span class="px-2.5 py-0.5 rounded-full bg-accentviolet/20 border border-accentviolet/30 text-accentviolet font-mono text-[10px] font-bold z-10">
                                             S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}
                                         </span>
-                                        <i class="fa-solid fa-clapperboard text-slate-700 text-3xl z-10"></i>
+                                        <i class="fa-solid fa-clapperboard text-slate-700 text-2xl z-10"></i>
                                     </div>
                                 `}
-                                <div class="p-5 space-y-3">
+                                <div class="p-4 space-y-2">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-[11px] text-slate-400 font-mono">${k}</span>
-                                        <span class="px-2.5 py-1 rounded-xl border text-sm font-mono font-extrabold ${ratingStyle}">
-                                            ★ ${ratingVal}/10
+                                        <span class="text-[10px] text-slate-400 font-mono">${k}</span>
+                                        <span class="px-2 py-0.5 rounded-lg border text-xs font-mono font-extrabold ${ratingStyle}">
+                                            ★ ${ratingVal}
                                         </span>
                                     </div>
-                                    <h4 class="cinematic-font text-base font-bold text-white group-hover:text-accentviolet transition-colors line-clamp-1">"${ep.title}"</h4>
-                                    <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${ep.summary || 'No plot summary written for this episode.'}</p>
+                                    <h4 class="cinematic-font text-sm font-bold text-white line-clamp-1">"${ep.title}"</h4>
+                                    <p class="text-[11px] text-slate-400 line-clamp-2">${ep.summary || 'No plot summary.'}</p>
                                 </div>
                             </div>
-                            <div class="px-5 pb-5 pt-0 flex items-center justify-between text-xs text-accentviolet font-semibold">
-                                <span>View Episode Details</span>
-                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            <div class="px-4 pb-4 pt-0 flex items-center justify-between text-[11px] text-accentviolet font-semibold">
+                                <span>View Details</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </div>
                         </div>
                     `;
@@ -775,13 +778,13 @@
 
         function getRatingColorClass(rating) {
             const r = Number(rating);
-            if (r >= 9.5) return 'bg-cinemaBlue text-white shadow-md shadow-cinemaBlue/25 border border-sky-400/40 font-extrabold';
-            if (r >= 9.0) return 'bg-forestGreen text-white shadow-md shadow-forestGreen/25 border border-emerald-500/40 font-extrabold';
-            if (r >= 8.0) return 'bg-vibrantGreen text-darkbg font-extrabold shadow-md shadow-vibrantGreen/25 border border-green-400/40';
-            if (r >= 7.0) return 'bg-brightYellow text-darkbg font-extrabold shadow-md shadow-brightYellow/25 border border-yellow-300/40';
-            if (r >= 5.5) return 'bg-orangeTier text-white shadow-md shadow-orangeTier/25 border border-orange-400/40 font-extrabold';
-            if (r >= 4.0) return 'bg-redTier text-white shadow-md shadow-redTier/25 border border-red-400/40 font-extrabold';
-            return 'bg-purpleTier text-purple-100 shadow-md shadow-purple-950/50 border border-purple-500/40 font-extrabold';
+            if (r >= 9.5) return 'bg-cinemaBlue text-white border border-sky-400/40 font-extrabold';
+            if (r >= 9.0) return 'bg-forestGreen text-white border border-emerald-500/40 font-extrabold';
+            if (r >= 8.0) return 'bg-vibrantGreen text-darkbg font-extrabold border border-green-400/40';
+            if (r >= 7.0) return 'bg-brightYellow text-darkbg font-extrabold border border-yellow-300/40';
+            if (r >= 5.5) return 'bg-orangeTier text-white border border-orange-400/40 font-extrabold';
+            if (r >= 4.0) return 'bg-redTier text-white border border-red-400/40 font-extrabold';
+            return 'bg-purpleTier text-purple-100 border border-purple-500/40 font-extrabold';
         }
 
         function getRatingColorStyle(rating) {
@@ -806,7 +809,7 @@
             cellsContainer.innerHTML = '';
 
             for (let i = 0; i < firstDayIndex; i++) {
-                cellsContainer.innerHTML += `<div class="bg-darkbg/20 min-h-[100px] md:min-h-[120px] opacity-20"></div>`;
+                cellsContainer.innerHTML += `<div class="bg-darkbg/10 min-h-[75px] opacity-15"></div>`;
             }
 
             for (let day = 1; day <= totalDays; day++) {
@@ -820,29 +823,21 @@
                 if (ep) {
                     const r = Number(ep.rating || 8.0).toFixed(1);
                     bgStyle = getRatingColorStyle(r);
-                    ratingBadge = `<span class="px-2 py-0.5 rounded-lg text-xs font-mono font-extrabold ${bgStyle}">★ ${r}</span>`;
+                    ratingBadge = `<span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-extrabold ${bgStyle}">★ ${r}</span>`;
                     bgStyle = bgStyle.replace('text-', 'bg-opacity-25 text-').replace('border-', 'border-opacity-50 border-');
                 } else {
                     bgStyle = 'hover:bg-cardborder/40';
                 }
 
                 cellsContainer.innerHTML += `
-                    <div onclick="openModalForDate('${dateKey}')" class="p-2.5 md:p-3.5 min-h-[100px] md:min-h-[120px] flex flex-col justify-between cursor-pointer transition-all duration-200 ${bgStyle} ${isToday ? 'ring-2 ring-accentviolet ring-inset' : ''} relative group">
+                    <div onclick="openModalForDate('${dateKey}')" class="p-1.5 sm:p-2.5 min-h-[75px] sm:min-h-[100px] flex flex-col justify-between cursor-pointer transition-all ${bgStyle} ${isToday ? 'ring-2 ring-accentviolet ring-inset' : ''} relative group">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-mono font-bold ${isToday ? 'w-6 h-6 rounded-full bg-accentviolet text-white flex items-center justify-center shadow-md' : 'text-slate-400'}">${day}</span>
+                            <span class="text-[10px] sm:text-xs font-mono font-bold ${isToday ? 'w-5 h-5 rounded-full bg-accentviolet text-white flex items-center justify-center' : 'text-slate-400'}">${day}</span>
                             ${ratingBadge}
                         </div>
-                        <div class="space-y-1">
-                            ${ep ? `
-                                <p class="text-[11px] font-bold text-white line-clamp-1 cinematic-font">"${ep.title}"</p>
-                                <p class="text-[10px] text-slate-400 line-clamp-1">${ep.summary || ''}</p>
-                            ` : `
-                                <div class="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-accentviolet font-medium flex items-center space-x-1">
-                                    <i class="fa-solid fa-plus"></i><span>Log Episode</span>
-                                </div>
-                            `}
+                        <div>
+                            ${ep ? `<p class="text-[9px] sm:text-[10px] font-bold text-white line-clamp-1 cinematic-font">"${ep.title}"</p>` : ''}
                         </div>
-                        ${ep && ep.photo ? `<div class="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-accentcyan/20 text-accentcyan flex items-center justify-center text-[8px]"><i class="fa-solid fa-camera"></i></div>` : ''}
                     </div>
                 `;
             }
@@ -894,92 +889,90 @@
             const endDate = new Date(matrixConfig.endDate);
 
             if (startDate > endDate) {
-                container.innerHTML = `<div class="text-center py-8 text-rose-400 text-xs font-semibold">Start date must be before or equal to end date.</div>`;
+                container.innerHTML = `<div class="text-center py-6 text-rose-400 text-xs font-semibold">Start date must be before end date.</div>`;
                 return;
             }
 
-            const monthMap = new Map();
-            let curr = new Date(startDate);
-            while (curr <= endDate) {
-                const year = curr.getFullYear();
-                const month = String(curr.getMonth() + 1).padStart(2, '0');
-                const ymKey = `${year}-${month}`;
-                if (!monthMap.has(ymKey)) {
-                    monthMap.set(ymKey, []);
-                }
-                monthMap.get(ymKey).push(formatDateKey(curr));
-                curr.setDate(curr.getDate() + 1);
+            let monthsList = [];
+            let curr = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+            const endMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+
+            while (curr <= endMonth) {
+                monthsList.push({
+                    year: curr.getFullYear(),
+                    month: curr.getMonth()
+                });
+                curr.setMonth(curr.getMonth() + 1);
             }
 
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             
             let totalRangeDays = 0;
-            monthMap.forEach(days => totalRangeDays += days.length);
-            document.getElementById('matrix-total-days-badge').innerText = `Total Range: ${totalRangeDays} days`;
-
-            if (monthMap.size === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No days in range.</div>`;
-                return;
+            let dCheck = new Date(startDate);
+            while(dCheck <= endDate) {
+                totalRangeDays++;
+                dCheck.setDate(dCheck.getDate() + 1);
             }
+            document.getElementById('matrix-total-days-badge').innerText = `Total: ${totalRangeDays} days`;
 
-            let html = ``;
+            let html = `
+                <div class="space-y-1">
+                    <!-- Header: Days 1 to 31 -->
+                    <div class="flex items-center text-[10px] font-mono text-slate-400 border-b border-cardborder pb-1 mb-2">
+                        <div class="w-12 shrink-0 font-bold text-slate-500">Month</div>
+                        <div class="grid grid-cols-31 flex-1 gap-0.5 sm:gap-1 text-center">
+            `;
+            for (let d = 1; d <= 31; d++) {
+                html += `<div class="text-[8px] sm:text-[9px]">${d}</div>`;
+            }
+            html += `</div></div>`;
 
-            monthMap.forEach((dateKeys, ymKey) => {
-                const [yearStr, monthStr] = ymKey.split('-');
-                const monthName = monthNames[parseInt(monthStr, 10) - 1];
-
-                let ratingSum = 0;
-                let ratedCount = 0;
-                dateKeys.forEach(dateKey => {
-                    const ep = episodes[dateKey];
-                    if (ep && ep.rating !== undefined) {
-                        ratingSum += Number(ep.rating);
-                        ratedCount++;
-                    }
-                });
-                const monthAvg = ratedCount > 0 ? (ratingSum / ratedCount).toFixed(1) : 'N/A';
-
-                html += `
-                    <div class="space-y-3 pb-6 border-b border-cardborder last:border-b-0 last:pb-0">
-                        <div class="flex items-center justify-between">
-                            <h3 class="cinematic-font text-base font-bold text-white flex items-center space-x-2">
-                                <span class="text-accentviolet">${monthName} ${yearStr}</span>
-                            </h3>
-                            <div class="flex items-center space-x-2 bg-darkbg border border-cardborder px-3 py-1 rounded-xl">
-                                <span class="text-xs text-slate-400">Monthly Average:</span>
-                                <span class="text-xs font-mono font-bold text-accentamber">${monthAvg} / 10</span>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 lg:grid-cols-20 gap-2.5">
-                `;
-
-                dateKeys.forEach(dateKey => {
-                    const ep = episodes[dateKey];
-                    let bgClass = "bg-cardborder/50 border border-cardborder text-slate-500 hover:border-slate-400";
-                    let ratingText = "?";
-                    let tooltip = `${dateKey}: Unreleased (?)`;
-
-                    if (ep && ep.rating !== undefined) {
-                        const r = Number(ep.rating).toFixed(1);
-                        ratingText = r;
-                        tooltip = `${dateKey} - "${ep.title}" (${r}/10)`;
-                        bgClass = getRatingColorClass(r);
-                    }
-
-                    html += `
-                        <div onclick="openModalForDate('${dateKey}')" title="${tooltip}" class="aspect-square rounded-2xl ${bgClass} flex flex-col items-center justify-center cursor-pointer transition-all duration-200 transform hover:scale-105 p-1 relative group shadow-md">
-                            <span class="text-base sm:text-lg font-mono font-extrabold leading-none">${ratingText}</span>
-                            <span class="text-[10px] opacity-80 font-mono mt-1 font-semibold">${dateKey.slice(8)}</span>
-                        </div>
-                    `;
-                });
+            monthsList.forEach(({year, month}) => {
+                const mName = monthNames[month];
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
 
                 html += `
-                        </div>
-                    </div>
+                    <div class="flex items-center text-xs">
+                        <div class="w-12 shrink-0 cinematic-font font-bold text-accentviolet text-[10px] sm:text-[11px]">${mName}</div>
+                        <div class="grid grid-cols-31 flex-1 gap-0.5 sm:gap-1">
                 `;
+
+                for (let d = 1; d <= 31; d++) {
+                    if (d <= daysInMonth) {
+                        const monthStr = String(month + 1).padStart(2, '0');
+                        const dayStr = String(d).padStart(2, '0');
+                        const dateKey = `${year}-${monthStr}-${dayStr}`;
+                        const dateObj = new Date(year, month, d);
+
+                        const isInRange = dateObj >= startDate && dateObj <= endDate;
+                        const ep = episodes[dateKey];
+
+                        if (!isInRange) {
+                            html += `<div class="aspect-square rounded-[3px] bg-darkbg/20 border border-cardborder/30 opacity-15"></div>`;
+                        } else {
+                            let bgClass = "bg-cardborder/30 border border-cardborder/50 text-slate-600";
+                            let ratingText = "";
+                            if (ep && ep.rating !== undefined) {
+                                const r = Number(ep.rating).toFixed(1);
+                                ratingText = r;
+                                bgClass = getRatingColorClass(r);
+                            }
+
+                            html += `
+                                <div onclick="openModalForDate('${dateKey}')" title="${dateKey} ${ep ? '- ' + ep.title : ''}" class="aspect-square rounded-[3px] sm:rounded-[4px] ${bgClass} flex items-center justify-center cursor-pointer transition-transform active:scale-95 text-[7px] sm:text-[8px] font-mono font-bold">
+                                    ${ratingText ? ratingText.split('.')[0] : ''}
+                                </div>
+                            `;
+                        }
+                    } else {
+                        html += `<div class="aspect-square opacity-0 pointer-events-none"></div>`;
+                    }
+                }
+
+                html += `</div></div>`;
             });
 
+            html += `</div>`;
             container.innerHTML = html;
         };
 
@@ -1002,30 +995,23 @@
             });
 
             keys.sort((a, b) => {
-                if (sortFilter === 'date-desc') {
-                    return b.localeCompare(a);
-                } else if (sortFilter === 'date-asc') {
-                    return a.localeCompare(b);
-                } else if (sortFilter === 'rating-desc') {
-                    const ratingA = Number(episodes[a].rating || 0);
-                    const ratingB = Number(episodes[b].rating || 0);
-                    if (ratingB !== ratingA) return ratingB - ratingA;
-                    return b.localeCompare(a);
-                } else if (sortFilter === 'rating-asc') {
-                    const ratingA = Number(episodes[a].rating || 0);
-                    const ratingB = Number(episodes[b].rating || 0);
-                    if (ratingA !== ratingB) return ratingA - ratingB;
-                    return b.localeCompare(a);
+                if (sortFilter === 'date-desc') return b.localeCompare(a);
+                if (sortFilter === 'date-asc') return a.localeCompare(b);
+                if (sortFilter === 'rating-desc') {
+                    return (Number(episodes[b].rating || 0)) - (Number(episodes[a].rating || 0));
+                }
+                if (sortFilter === 'rating-asc') {
+                    return (Number(episodes[a].rating || 0)) - (Number(episodes[b].rating || 0));
                 }
                 return b.localeCompare(a);
             });
 
             if (keys.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full bg-cardbg border border-cardborder rounded-3xl p-12 text-center space-y-3">
-                        <i class="fa-solid fa-film text-slate-600 text-3xl"></i>
-                        <h4 class="text-white font-bold text-sm">No Episodes Found</h4>
-                        <p class="text-slate-400 text-xs">Try adjusting your search query or season filter.</p>
+                    <div class="col-span-full bg-cardbg border border-cardborder rounded-2xl p-8 text-center space-y-2">
+                        <i class="fa-solid fa-film text-slate-600 text-2xl"></i>
+                        <h4 class="text-white font-bold text-xs">No Episodes Found</h4>
+                        <p class="text-slate-400 text-[11px]">Try modifying your search filter.</p>
                     </div>
                 `;
                 return;
@@ -1040,39 +1026,37 @@
                 const ratingStyle = getRatingColorStyle(ratingVal);
 
                 return `
-                    <div onclick="openModalForDate('${k}')" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-3xl overflow-hidden group hover:border-accentviolet/40 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between">
+                    <div onclick="openModalForDate('${k}')" class="bg-cardbg/90 backdrop-blur-xl border border-cardborder rounded-2xl sm:rounded-3xl overflow-hidden group active:scale-[0.98] transition-all cursor-pointer flex flex-col justify-between">
                         <div>
                             ${ep.photo ? `
-                                <div class="h-48 w-full overflow-hidden relative">
-                                    <img src="${ep.photo}" alt="${ep.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-transparent"></div>
-                                    <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-mono text-[11px] font-bold shadow-lg">
+                                <div class="h-40 w-full overflow-hidden relative">
+                                    <img src="${ep.photo}" alt="${ep.title}" class="w-full h-full object-cover">
+                                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-mono text-[10px] font-bold">
                                         S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}
                                     </span>
                                 </div>
                             ` : `
-                                <div class="h-32 bg-darkbg border-b border-cardborder flex items-center justify-between p-4 relative">
-                                    <div class="absolute inset-0 bg-accentviolet/5"></div>
-                                    <span class="px-3 py-1 rounded-full bg-accentviolet/20 border border-accentviolet/30 text-accentviolet font-mono text-[11px] font-bold z-10">
+                                <div class="h-24 bg-darkbg border-b border-cardborder flex items-center justify-between px-4 relative">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-accentviolet/20 border border-accentviolet/30 text-accentviolet font-mono text-[10px] font-bold z-10">
                                         S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}
                                     </span>
-                                    <i class="fa-solid fa-clapperboard text-slate-700 text-3xl z-10"></i>
+                                    <i class="fa-solid fa-clapperboard text-slate-700 text-2xl z-10"></i>
                                 </div>
                             `}
-                            <div class="p-5 space-y-3">
+                            <div class="p-4 space-y-2">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-[11px] text-slate-400 font-mono">${k}</span>
-                                    <span class="px-2.5 py-1 rounded-xl border text-sm font-mono font-extrabold ${ratingStyle}">
-                                        ★ ${ratingVal}/10
+                                    <span class="text-[10px] text-slate-400 font-mono">${k}</span>
+                                    <span class="px-2 py-0.5 rounded-lg border text-xs font-mono font-extrabold ${ratingStyle}">
+                                        ★ ${ratingVal}
                                     </span>
                                 </div>
-                                <h4 class="cinematic-font text-base font-bold text-white group-hover:text-accentviolet transition-colors line-clamp-1">"${ep.title}"</h4>
-                                <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">${ep.summary || 'No plot summary written for this episode.'}</p>
+                                <h4 class="cinematic-font text-sm font-bold text-white line-clamp-1">"${ep.title}"</h4>
+                                <p class="text-[11px] text-slate-400 line-clamp-3">${ep.summary || 'No plot summary.'}</p>
                             </div>
                         </div>
-                        <div class="px-5 pb-5 pt-0 flex items-center justify-between text-xs text-accentviolet font-semibold">
+                        <div class="px-4 pb-4 pt-0 flex items-center justify-between text-[11px] text-accentviolet font-semibold">
                             <span>Edit Episode</span>
-                            <i class="fa-solid fa-pen-to-square group-hover:translate-x-1 transition-transform"></i>
+                            <i class="fa-solid fa-pen-to-square text-[10px]"></i>
                         </div>
                     </div>
                 `;
@@ -1096,21 +1080,20 @@
             select.value = currentVal;
         };
 
-        // Photo of the Day / Stills Cycle Tab Logic
         window.loadRandomStill = function() {
             const container = document.getElementById('stills-display-container');
             const photoKeys = Object.keys(episodes).filter(k => episodes[k].photo);
 
             if (photoKeys.length === 0) {
                 container.innerHTML = `
-                    <div class="p-16 text-center space-y-4">
-                        <div class="w-16 h-16 bg-accentviolet/10 text-accentviolet rounded-2xl mx-auto flex items-center justify-center text-2xl">
+                    <div class="p-10 text-center space-y-3">
+                        <div class="w-12 h-12 bg-accentviolet/10 text-accentviolet rounded-xl mx-auto flex items-center justify-center text-xl">
                             <i class="fa-solid fa-camera-retro"></i>
                         </div>
-                        <h3 class="cinematic-font text-xl font-bold text-white tracking-wide">No Photo Stills Found</h3>
-                        <p class="text-slate-400 text-xs max-w-md mx-auto">You haven't uploaded any photos to your daily episodes yet. Log an episode with an uploaded photo to cycle through your timeline stills!</p>
-                        <button onclick="openModalForToday()" class="px-5 py-2.5 rounded-2xl bg-accentviolet text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 hover:opacity-90 transition-all inline-flex items-center space-x-2">
-                            <i class="fa-solid fa-plus"></i><span>Add Episode Photo</span>
+                        <h3 class="cinematic-font text-base font-bold text-white">No Photo Stills Found</h3>
+                        <p class="text-slate-400 text-xs max-w-xs mx-auto">Upload photos when logging episodes to view your still gallery.</p>
+                        <button onclick="openModalForToday()" class="px-4 py-2 rounded-xl bg-accentviolet text-white font-semibold text-xs inline-flex items-center space-x-1.5">
+                            <i class="fa-solid fa-plus text-[10px]"></i><span>Add Photo</span>
                         </button>
                     </div>
                 `;
@@ -1127,35 +1110,30 @@
 
             container.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2">
-                    <div class="bg-black relative min-h-[350px] lg:min-h-[480px] flex items-center justify-center overflow-hidden">
+                    <div class="bg-black relative min-h-[280px] lg:min-h-[400px] flex items-center justify-center overflow-hidden">
                         <img src="${ep.photo}" alt="${ep.title}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-transparent lg:hidden"></div>
-                        <span class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-white font-mono text-xs font-bold shadow-lg">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white font-mono text-[10px] font-bold">
                             S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}
                         </span>
                     </div>
-                    <div class="p-8 flex flex-col justify-between space-y-6">
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-accentcyan font-mono flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-calendar-day"></i>
-                                    <span>Captured on ${randomKey}</span>
-                                </span>
-                                <span class="px-3 py-1 rounded-xl border text-sm font-mono font-extrabold ${ratingStyle}">
-                                    ★ ${ratingVal}/10
+                    <div class="p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-accentcyan font-mono">${randomKey}</span>
+                                <span class="px-2.5 py-0.5 rounded-lg border font-mono font-extrabold ${ratingStyle}">
+                                    ★ ${ratingVal}
                                 </span>
                             </div>
-                            <h3 class="cinematic-font text-2xl font-bold text-white tracking-wide">"${ep.title}"</h3>
-                            <p class="text-slate-300 text-sm leading-relaxed">${ep.summary || 'No plot summary provided for this date.'}</p>
+                            <h3 class="cinematic-font text-lg sm:text-xl font-bold text-white">"${ep.title}"</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">${ep.summary || 'No plot summary.'}</p>
                         </div>
-                        <div class="pt-6 border-t border-cardborder flex items-center justify-between">
-                            <button onclick="openModalForDate('${randomKey}')" class="px-4 py-2.5 rounded-2xl bg-cardborder hover:bg-slate-700 text-slate-200 font-semibold text-xs transition-all flex items-center space-x-2 border border-white/5">
-                                <i class="fa-solid fa-pen-to-square text-accentviolet"></i>
-                                <span>View Episode</span>
+                        <div class="pt-4 border-t border-cardborder flex items-center justify-between">
+                            <button onclick="openModalForDate('${randomKey}')" class="px-3.5 py-2 rounded-xl bg-cardborder hover:bg-slate-700 text-slate-200 font-semibold text-xs transition-all">
+                                Edit Episode
                             </button>
-                            <button onclick="loadRandomStill()" class="px-5 py-2.5 rounded-2xl bg-accentviolet text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 hover:opacity-95 transition-all flex items-center space-x-2">
-                                <i class="fa-solid fa-shuffle"></i>
-                                <span>Next Random Still</span>
+                            <button onclick="loadRandomStill()" class="px-4 py-2 rounded-xl bg-accentviolet text-white font-semibold text-xs shadow-lg shadow-accentviolet/25 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-shuffle text-[10px]"></i>
+                                <span>Shuffle</span>
                             </button>
                         </div>
                     </div>
@@ -1231,21 +1209,15 @@
             document.getElementById('form-rating-num').value = numVal.toFixed(1);
         }
 
-        window.syncRatingFromRange = function(val) {
-            updateRatingValues(val);
-        };
-
-        window.syncRatingFromInput = function(val) {
-            if (val === '') return;
-            updateRatingValues(val);
-        };
+        window.syncRatingFromRange = function(val) { updateRatingValues(val); };
+        window.syncRatingFromInput = function(val) { if (val !== '') updateRatingValues(val); };
 
         window.handlePhotoUpload = function(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             if (file.size > 5 * 1024 * 1024) {
-                showToast('Image file too large (max 5MB)', 'error');
+                showToast('Image too large (max 5MB)', 'error');
                 return;
             }
 
@@ -1289,10 +1261,9 @@
             };
 
             await saveUserDataToCloud();
-
             closeModal();
             refreshUI();
-            showToast(`Episode "${title}" saved successfully!`, 'success');
+            showToast(`Episode "${title}" saved!`, 'success');
         };
 
         window.deleteCurrentEpisode = async function() {
@@ -1302,11 +1273,10 @@
                 await saveUserDataToCloud();
                 closeModal();
                 refreshUI();
-                showToast('Episode deleted successfully', 'success');
+                showToast('Episode deleted', 'success');
             }
         };
 
-        // Cloud & Export Modals
         window.openCloudSyncModal = function() {
             document.getElementById('cloud-modal').classList.remove('hidden');
             document.getElementById('cloud-modal').classList.add('flex');
@@ -1333,7 +1303,7 @@
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
-            showToast("Timeline JSON backup downloaded successfully!", 'success');
+            showToast("Backup downloaded!", 'success');
         };
 
         window.importTimelineJSON = function(event) {
@@ -1348,12 +1318,12 @@
                         await saveUserDataToCloud();
                         refreshUI();
                         closeExportImportModal();
-                        showToast("Timeline backup imported successfully!", 'success');
+                        showToast("Backup imported successfully!", 'success');
                     } else {
-                        showToast("Invalid JSON backup format", 'error');
+                        showToast("Invalid JSON format", 'error');
                     }
                 } catch (err) {
-                    showToast("Error parsing backup JSON file", 'error');
+                    showToast("Error parsing JSON file", 'error');
                 }
             };
             reader.readAsText(file);
@@ -1366,17 +1336,17 @@
 
             msgEl.innerText = message;
             if (type === 'success') {
-                iconEl.className = 'w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs';
+                iconEl.className = 'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] shrink-0';
                 iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
             } else {
-                iconEl.className = 'w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-xs';
+                iconEl.className = 'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-[10px] shrink-0';
                 iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
             }
 
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3500);
+            }, 3000);
         };
     </script>
 
